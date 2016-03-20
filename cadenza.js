@@ -84,6 +84,15 @@ var c = function cadenza(argument) {
         return wrap(newSibling);
       }
 
+      function setAttributes(attributes) {
+        for (var key in attributes) {
+          var value = attributes[key];
+          element.setAttribute(key, value);
+        }
+
+        return this;
+      }
+
       function setClassName(className) {
         element.setAttribute('class', className);
         return this;
@@ -123,6 +132,7 @@ var c = function cadenza(argument) {
         insertBefore: insertBefore,
         prependChild: prependChild,
         prependSibling: prependSibling,
+        setAttributes: setAttributes,
         setClassName: setClassName,
         setId: setId,
         setTextContent: setTextContent,
@@ -140,6 +150,14 @@ var c = function cadenza(argument) {
         for (var i = 0; i < nodeList.length; i += 1) {
           callback(nodeList[i]);
         }
+
+        return this;
+      }
+
+      function setAttributes(attributes) {
+        this.forEach(function (element) {
+          c(element).setAttributes(attributes);
+        });
 
         return this;
       }
@@ -166,6 +184,7 @@ var c = function cadenza(argument) {
 
       return deepFreeze({
         forEach: forEach,
+        setAttributes: setAttributes,
         setClassName: setClassName,
         setStyles: setStyles,
         unwrap: unwrap
