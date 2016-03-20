@@ -31,6 +31,11 @@ var c = function cadenza(argument) {
         return wrap(newSibling);
       }
 
+      function forEach(callback) {
+        callback(element);
+        return this;
+      }
+
       function insertAfter(tagName, reference) {
         if (typeof reference === 'string') {
           reference = document.querySelector(reference);
@@ -70,6 +75,7 @@ var c = function cadenza(argument) {
       return deepFreeze({
         appendChild: appendChild,
         appendSibling: appendSibling,
+        forEach: forEach,
         insertAfter: insertAfter,
         insertBefore: insertBefore,
         prependChild: prependChild,
@@ -82,7 +88,16 @@ var c = function cadenza(argument) {
   if (nodeList) {
     return (function wrap(nodeList) {
 
+      function forEach(callback) {
+        for (var i = 0; i < nodeList.length; i += 1) {
+          callback(nodeList[i]);
+        }
+
+        return this;
+      }
+
       return deepFreeze({
+        forEach: forEach
       });
 
     })(nodeList);
