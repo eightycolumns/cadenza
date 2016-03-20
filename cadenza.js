@@ -72,6 +72,10 @@ var c = function cadenza(argument) {
         return wrap(newSibling);
       }
 
+      function unwrap() {
+        return element;
+      }
+
       return deepFreeze({
         appendChild: appendChild,
         appendSibling: appendSibling,
@@ -79,7 +83,8 @@ var c = function cadenza(argument) {
         insertAfter: insertAfter,
         insertBefore: insertBefore,
         prependChild: prependChild,
-        prependSibling: prependSibling
+        prependSibling: prependSibling,
+        unwrap: unwrap
       });
 
     })(element);
@@ -96,8 +101,13 @@ var c = function cadenza(argument) {
         return this;
       }
 
+      function unwrap() {
+        return nodeList;
+      }
+
       return deepFreeze({
-        forEach: forEach
+        forEach: forEach,
+        unwrap: unwrap
       });
 
     })(nodeList);
