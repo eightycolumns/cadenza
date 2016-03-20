@@ -98,6 +98,15 @@ var c = function cadenza(argument) {
         return this;
       }
 
+      function setCustomDataAttributes(customDataAttributes) {
+        for (var key in customDataAttributes) {
+          var value = customDataAttributes[key];
+          element.setAttribute('data-' + key, value);
+        }
+
+        return this;
+      }
+
       function setId(id) {
         element.setAttribute('id', id);
         return this;
@@ -134,6 +143,7 @@ var c = function cadenza(argument) {
         prependSibling: prependSibling,
         setAttributes: setAttributes,
         setClassName: setClassName,
+        setCustomDataAttributes: setCustomDataAttributes,
         setId: setId,
         setTextContent: setTextContent,
         setStyles: setStyles,
@@ -170,6 +180,14 @@ var c = function cadenza(argument) {
         return this;
       }
 
+      function setCustomDataAttributes(customDataAttributes) {
+        this.forEach(function (element) {
+          c(element).setCustomDataAttributes(customDataAttributes);
+        });
+
+        return this;
+      }
+
       function setStyles(styles) {
         this.forEach(function (element) {
           c(element).setStyles(styles);
@@ -186,6 +204,7 @@ var c = function cadenza(argument) {
         forEach: forEach,
         setAttributes: setAttributes,
         setClassName: setClassName,
+        setCustomDataAttributes: setCustomDataAttributes,
         setStyles: setStyles,
         unwrap: unwrap
       });
