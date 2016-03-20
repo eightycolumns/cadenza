@@ -44,6 +44,10 @@ var c = function cadenza(argument) {
         return element.getAttribute('id');
       }
 
+      function getTextContent() {
+        return element.textContent;
+      }
+
       function insertAfter(tagName, reference) {
         if (typeof reference === 'string') {
           reference = document.querySelector(reference);
@@ -90,6 +94,11 @@ var c = function cadenza(argument) {
         return this;
       }
 
+      function setTextContent(textContent) {
+        element.textContent = textContent;
+        return this;
+      }
+
       function unwrap() {
         return element;
       }
@@ -100,12 +109,14 @@ var c = function cadenza(argument) {
         forEach: forEach,
         getClassName: getClassName,
         getId: getId,
+        getTextContent: getTextContent,
         insertAfter: insertAfter,
         insertBefore: insertBefore,
         prependChild: prependChild,
         prependSibling: prependSibling,
         setClassName: setClassName,
         setId: setId,
+        setTextContent: setTextContent,
         unwrap: unwrap
       });
 
