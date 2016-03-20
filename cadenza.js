@@ -17,7 +17,63 @@ var c = function cadenza(argument) {
   if (element) {
     return (function wrap(element) {
 
+      function appendChild(tagName) {
+        var newChild = createElement(tagName);
+        element.appendChild(newChild);
+
+        return wrap(newChild);
+      }
+
+      function appendSibling(tagName) {
+        var newSibling = createElement(tagName);
+        element.parentNode.insertBefore(newSibling, element.nextSibling);
+
+        return wrap(newSibling);
+      }
+
+      function insertAfter(tagName, reference) {
+        if (typeof reference === 'string') {
+          reference = document.querySelector(reference);
+        }
+
+        var newChild = createElement(tagName);
+        element.insertBefore(newChild, reference.nextSibling);
+
+        return wrap(newChild);
+      }
+
+      function insertBefore(tagName, reference) {
+        if (typeof reference === 'string') {
+          reference = document.querySelector(reference);
+        }
+
+        var newChild = createElement(tagName);
+        element.insertBefore(newChild, reference);
+
+        return wrap(newChild);
+      }
+
+      function prependChild(tagName) {
+        var newChild = createElement(tagName);
+        element.insertBefore(newChild, element.firstChild);
+
+        return wrap(newChild);
+      }
+
+      function prependSibling(tagName) {
+        var newSibling = createElement(tagName);
+        element.parentNode.insertBefore(newSibling, element);
+
+        return wrap(newSibling);
+      }
+
       return deepFreeze({
+        appendChild: appendChild,
+        appendSibling: appendSibling,
+        insertAfter: insertAfter,
+        insertBefore: insertBefore,
+        prependChild: prependChild,
+        prependSibling: prependSibling
       });
 
     })(element);
@@ -30,6 +86,15 @@ var c = function cadenza(argument) {
       });
 
     })(nodeList);
+  }
+
+  function createElement(tagName) {
+    if (tagName === 'svg' || element instanceof SVGElement) {
+      var svgNS = 'http://www.w3.org/2000/svg';
+      return document.createElementNS(svgNS, tagName);
+    } else if (element instanceof HTMLElement && tagName !== 'svg') {
+      return document.createElement(tagName);
+    }
   }
 
   function deepFreeze(object) {
