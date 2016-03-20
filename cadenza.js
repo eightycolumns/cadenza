@@ -36,6 +36,14 @@ var c = function cadenza(argument) {
         return this;
       }
 
+      function getClassName() {
+        return element.getAttribute('class');
+      }
+
+      function getId() {
+        return element.getAttribute('id');
+      }
+
       function insertAfter(tagName, reference) {
         if (typeof reference === 'string') {
           reference = document.querySelector(reference);
@@ -72,6 +80,16 @@ var c = function cadenza(argument) {
         return wrap(newSibling);
       }
 
+      function setClassName(className) {
+        element.setAttribute('class', className);
+        return this;
+      }
+
+      function setId(id) {
+        element.setAttribute('id', id);
+        return this;
+      }
+
       function unwrap() {
         return element;
       }
@@ -80,10 +98,14 @@ var c = function cadenza(argument) {
         appendChild: appendChild,
         appendSibling: appendSibling,
         forEach: forEach,
+        getClassName: getClassName,
+        getId: getId,
         insertAfter: insertAfter,
         insertBefore: insertBefore,
         prependChild: prependChild,
         prependSibling: prependSibling,
+        setClassName: setClassName,
+        setId: setId,
         unwrap: unwrap
       });
 
@@ -101,12 +123,21 @@ var c = function cadenza(argument) {
         return this;
       }
 
+      function setClassName(className) {
+        this.forEach(function (element) {
+          c(element).setClassName(className);
+        });
+
+        return this;
+      }
+
       function unwrap() {
         return nodeList;
       }
 
       return deepFreeze({
         forEach: forEach,
+        setClassName: setClassName,
         unwrap: unwrap
       });
 
